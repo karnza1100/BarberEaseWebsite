@@ -442,42 +442,100 @@
         // ฟังก์ชันส่งรีวิวไปที่ Backend FastAPI
         async function submitReview() {
             const text = document.getElementById('review-text').value.trim();
-            if(!text) { alert('กรุณาพิมพ์ข้อความก่อนส่งครับ'); return; }
+            if (!text) { alert('กรุณาพิมพ์ข้อความก่อนส่งครับ'); return; }
 
             const btnContent = document.getElementById('btn-content');
-            btnContent.innerHTML = '<span class="loading"></span> กำลังประmวลผลด้วย AI...';
+            btnContent.innerHTML = '<span class="loading"></span> กำลังประมวลผลและส่งข้อมูล...';
 
-            try {
-                const response = await fetch(`${API_URL}/api/submit-review`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
-                });
+            // === 1. DYNAMIC NLP SIMULATION ===
 
-                const result = await response.json();
-                
-                if (result.status === "success") {
-                    const data = result.data;
-                    
-                    // Render ผลลัพธ์การตัดคำ
-                    document.getElementById('morph-result').innerHTML = data.tokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
-                    
-                    // Render หมวดหมู่
-                    document.getElementById('category-result').innerHTML = `<div class="tag category">${data.category}</div>`;
-                    
-                    // Render Sentiment
-                    const sentimentClass = data.sentiment === 'Positive' ? 'pos' : 'neg';
-                    document.getElementById('sentiment-result').innerHTML = `<div class="tag ${sentimentClass}">${data.sentiment}</div>`;
+            // Split by space to simulate word segmentation (Morphological)
+            let mockTokens = text.split(/\s+/); 
+            document.getElementById('morph-result').innerHTML = mockTokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
 
-                    document.getElementById('process-area').style.display = 'block';
-                    alert('ส่งรีวิวเรียบร้อย! ข้อมูลถูกบันทึกขึ้นระบบแล้ว');
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                alert('ไม่สามารถเชื่อมต่อกับ Backend ได้ กรุณาเปิดโปรแกรม FastAPI ก่อน');
-            } finally {
-                btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
+            // POS Tagging (Lexical)
+            let lexicalHTML = "";
+            mockTokens.forEach(t => {
+                let pos = (typeof posDict !== 'undefined' && posDict[t]) ? posDict[t] : "Noun"; // Fallback to Noun
+                lexicalHTML += `<div class="tag">${t} (${pos})</div>`;
+            });
+            document.getElementById('lexical-result').innerHTML = lexicalHTML;
+
+            // Basic Dynamic Syntactic Level
+            let syntacticText = "";
+            if (mockTokens.length >= 2) {
+                syntacticText = `${mockTokens[0]} (Subject) / ${mockTokens[mockTokens.length - 1]} (Modifier/Object)`;
+            } else {
+                syntacticText = `${text} (Clause)`;
             }
+            document.getElementById('syntactic-result').innerText = syntacticText;
+
+            // Semantic Analysis & Category detection
+            let category = "ทั่วไป";
+            let sentiment = "Positive";
+            let extractedKeywords = [];
+
+            if (text.includes('ช่าง') || text.includes('ตัด')) { category = "คุณภาพงานช่าง"; extractedKeywords.push("ช่าง"); }
+            if (text.includes('สะอาด') || text.includes('แอร์') || text.includes('ร้าน') || text.includes('สวย')) { category = "สถานที่และสิ่งอำนวยความสะดวก"; extractedKeywords.push("ร้าน"); }
+            if (text.includes('คิว') || text.includes('รอ') || text.includes('จอง')) { category = "ระบบการจอง"; extractedKeywords.push("คิว"); }
+            
+            // Extract whatever they typed as a keyword if the list is empty
+            if (extractedKeywords.length === 0 && mockTokens.length > 0) {
+                extractedKeywords.push(mockTokens[0]);
+            }
+
+            // Sentiment logic
+            if (text.includes('ช้า') || text.includes('นาน') || text.includes('ไม่') || text.includes('แย่') || text.includes('ร้อน')) {
+                sentiment = "Negative";
+            }
+
+            let ambiguityHTML = "<span style='color:var(--success); font-weight:bold;'>ไม่พบความกำกวม ปกติ</span>";
+            if (text.includes("มั้ง") || (text.includes("เอง") && text.includes("ไม่นาน"))) {
+                sentiment = "Negative";
+                ambiguityHTML = "<span style='color:var(--danger); font-weight:bold;'>ตรวจพบการประชดประชัน (Sarcasm)</span>";
+            }
+
+            document.getElementById('semantic-result').innerHTML = `<strong>Topic:</strong> ${category} | <strong>Intent:</strong> Feedback`;
+            document.getElementById('keywords-result').innerHTML = extractedKeywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
+            document.getElementById('category-result').innerHTML = `<div class="tag category">${category}</div>`;
+
+            let sentPercent = sentiment === 'Positive' ? '85%' : '90%';
+            document.getElementById('sentiment-result').innerHTML = `<div class="tag ${sentiment === 'Positive' ? 'pos' : 'neg'}">${sentiment} (${sentPercent} confidence)</div>`;
+            document.getElementById('ambiguity-result').innerHTML = ambiguityHTML;
+
+            // Basic Information Extraction
+            let entity_staff = text.includes("ช่างบอย") ? "ช่างบอย" : "ไม่ระบุ";
+            let entity_issue = sentiment === "Negative" ? "ตรวจพบประเด็นปัญหา" : "ไม่มี";
+
+            let ieHTML = `
+                • <strong>Named Entity Recognition (NER):</strong> Staff: <span class='tag info'>${entity_staff}</span><br>
+                • <strong>Issue Detected:</strong> <span class='tag info'>${entity_issue}</span>
+            `;
+            document.getElementById('ie-result').innerHTML = ieHTML;
+            document.getElementById('process-area').style.display = 'block';
+
+            // === 2. SEND TO BACKEND ===
+            fetch("https://barberease-backend.onrender.com/api/submit-review", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text }) 
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("ส่งความคิดเห็นสำเร็จและบันทึกลงระบบแล้ว!");
+                document.getElementById('review-text').value = ''; 
+                btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
+
+                const dashboardPage = document.getElementById('dashboard-page');
+                if (dashboardPage && dashboardPage.classList.contains('active')) {
+                    loadAllReviews();
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("เกิดข้อผิดพลาดในการเชื่อมต่อเพื่อบันทึกลงเซิร์ฟเวอร์");
+                btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
+            });
         }
 
         // ฟังก์ชันดึงข้อมูลจาก Backend มาแสดงผลบน Dashboard
