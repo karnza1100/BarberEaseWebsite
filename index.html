@@ -478,8 +478,7 @@
     </div>
 
     <script>
-        // 🚨 สำคัญมาก: ตอนนี้ชี้ไปที่ Backend ในคอมฯ ตัวเองก่อน 
-        // หากเอา Backend ขึ้น Cloud แล้วให้มาแก้ตรงนี้เป็น URL ของ Cloud ครับ
+        // 🚨 ชี้ไปที่ Backend บน Render ของคุณเรียบร้อยแล้วครับ
         const API_URL = "https://barberease-backend-1.onrender.com";
 
         // ฟังก์ชันสลับหน้าเว็บ
@@ -496,6 +495,23 @@
                 renderDashboard();
             }
         }
+
+        // ==========================================
+        // 🛠️ โซนวิเคราะห์แก้ไข Negation สำหรับ Frontend
+        // ==========================================
+        const negationWords = ["ไม่", "ไม่ค่อย", "ห่วย", "แย่"];
+
+        function getRefinedSentiment(tokens, serverSentiment) {
+            // เช็กว่าประโยคมีคำปฏิเสธหรือคำเชิงลบหรือไม่
+            const hasNegation = tokens.some(token => negationWords.includes(token));
+            
+            // ถ้ามีคำปฏิเสธ แต่ผลลัพธ์จาก Server ดันเป็น Positive ให้ปัดเป็น Negative
+            if (hasNegation && serverSentiment === 'Positive') {
+                return 'Negative';
+            }
+            return serverSentiment;
+        }
+        // ==========================================
 
         // ฟังก์ชันส่งรีวิว
         function submitReview() {
@@ -521,7 +537,10 @@
             })
             .then(response => response.json())
             .then(res => {
-                // อัปเดตการแสดงผลฝั่ง AI
+                // 1. นำ Tokens และค่า Sentiment จากเซิร์ฟเวอร์มาวิเคราะห์ความถูกต้องซ้ำอีกครั้ง
+                const finalSentiment = getRefinedSentiment(res.tokens, res.sentiment);
+
+                // 2. อัปเดตการแสดงผลฝั่ง AI
                 document.getElementById('morph-result').innerHTML = res.tokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
 
                 if (res.pos_tags) {
@@ -533,7 +552,9 @@
                 }
 
                 document.getElementById('category-result').innerHTML = `<div class="tag category">${res.category}</div>`;
-                document.getElementById('sentiment-result').innerHTML = `<div class="tag ${res.sentiment === 'Positive' ? 'pos' : 'neg'}">${res.sentiment}</div>`;
+                
+                // 3. นำค่า finalSentiment ที่ประมวลผลใหม่ไปใช้แสดงผล
+                document.getElementById('sentiment-result').innerHTML = `<div class="tag ${finalSentiment === 'Positive' ? 'pos' : 'neg'}">${finalSentiment}</div>`;
 
                 // คืนค่าฟอร์ม
                 setTimeout(() => {
@@ -542,7 +563,7 @@
                 }, 500);
             })
             .catch(error => {
-                alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับ Backend โปรดตรวจดูว่าเปิด Uvicorn ทิ้งไว้หรือไม่");
+                alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับ Backend (โปรดรอประมาณ 1 นาทีเพื่อให้ระบบ Render ตื่นนอน หรือเช็กสถานะ Service อีกครั้งครับ)");
                 btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
                 console.error("Error submit review:", error);
             });
@@ -564,15 +585,20 @@
                 let categoryCounts = {};
 
                 data.forEach(item => {
-                    if (item.sentiment === 'Positive') posCount++;
-                    if (item.sentiment === 'Negative') negCount++;
+                    // 1. นำผลลัพธ์มาเช็กความถูกต้องที่ Dashboard ด้วย (อาศัยข้อมูล tokens หรือ text)
+                    // ถ้าใน Backend ไม่ได้เก็บ tokens ไว้ ขอเช็กจากตัวหนังสือดื้อๆ เลยครับ
+                    const textTokens = item.original_text.split(" "); // ตรวจสอบพื้นฐาน
+                    const finalSentiment = getRefinedSentiment(textTokens, item.sentiment);
+
+                    if (finalSentiment === 'Positive') posCount++;
+                    if (finalSentiment === 'Negative') negCount++;
 
                     categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
 
                     const row = `<tr>
                         <td>${item.original_text}</td>
                         <td><span class="tag category">${item.category}</span></td>
-                        <td><span class="sentiment-badge ${item.sentiment.toLowerCase()}">${item.sentiment}</span></td>
+                        <td><span class="sentiment-badge ${finalSentiment.toLowerCase()}">${finalSentiment}</span></td>
                     </tr>`;
                     tbody.innerHTML += row;
                 });
@@ -581,11 +607,14 @@
                 let posPercent = total > 0 ? Math.round((posCount / total) * 100) : 0;
                 let negPercent = total > 0 ? Math.round((negCount / total) * 100) : 0;
 
+                // อัปเดตตัวเลขใน UI
                 document.getElementById('stat-total').innerText = total;
-                document.getElementById('stat-pos').innerText = posCount;
+                document.getElementById('stat-pos').innerText = `${posCount} (${posPercent}%)`;
                 document.getElementById('stat-pos-percent').innerText = `ความรู้สึกเชิงบวก (${posPercent}%)`;
-                document.getElementById('stat-neg').innerText = negCount;
+                
+                document.getElementById('stat-neg').innerText = `${negCount} (${negPercent}%)`;
                 document.getElementById('stat-neg-percent').innerText = `ความรู้สึกเชิงลบ (${negPercent}%)`;
+                
                 document.getElementById('stat-satisfaction').innerText = `${posPercent}%`;
 
                 // วาดกราฟ
@@ -612,7 +641,7 @@
                 });
             })
             .catch(error => {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">โหลดข้อมูลล้มเหลว (ลืมรัน uvicorn หรือเปล่าครับ?)</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">โหลดข้อมูลล้มเหลว (ระบบกำลังตื่นนอน หรือมีปัญหากับเซิร์ฟเวอร์ Backend)</td></tr>';
                 console.error("Error fetching dashboard data:", error);
             });
         }
