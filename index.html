@@ -585,18 +585,27 @@
                 let categoryCounts = {};
 
                 data.forEach(item => {
-                    // 1. นำผลลัพธ์มาเช็กความถูกต้องที่ Dashboard ด้วย (อาศัยข้อมูล tokens หรือ text)
-                    // ถ้าใน Backend ไม่ได้เก็บ tokens ไว้ ขอเช็กจากตัวหนังสือดื้อๆ เลยครับ
-                    const textTokens = item.original_text.split(" "); // ตรวจสอบพื้นฐาน
-                    const finalSentiment = getRefinedSentiment(textTokens, item.sentiment);
+                    // --- 🛠️ เพิ่ม Logic ดักจับคำปฏิเสธตรงนี้ครับ 🛠️ ---
+                    const originalText = item.original_text || "";
+                    let finalSentiment = item.sentiment;
+
+                    // เช็กว่ามีคำเหล่านี้อยู่ในประโยคดั้งเดิมหรือไม่
+                    const hasNegation = negationWords.some(word => originalText.includes(word));
+                    
+                    // ถ้ามีคำปฏิเสธ แต่ข้อมูลจาก Database ดันส่งมาเป็น Positive ให้ปัดเป็น Negative ทันที
+                    if (hasNegation && finalSentiment === 'Positive') {
+                        finalSentiment = 'Negative';
+                    }
+                    // --------------------------------------------------
 
                     if (finalSentiment === 'Positive') posCount++;
                     if (finalSentiment === 'Negative') negCount++;
 
                     categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
 
+                    // เปลี่ยนมาใช้ตัวแปร finalSentiment ในการแสดงผลแทน
                     const row = `<tr>
-                        <td>${item.original_text}</td>
+                        <td>${originalText}</td>
                         <td><span class="tag category">${item.category}</span></td>
                         <td><span class="sentiment-badge ${finalSentiment.toLowerCase()}">${finalSentiment}</span></td>
                     </tr>`;
