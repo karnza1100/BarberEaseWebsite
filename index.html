@@ -571,30 +571,9 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log("รีวิวทั้งหมดจากหลังบ้าน:", data);
-
-                    const tbody = document.getElementById('table-body');
-                    tbody.innerHTML = ''; // ล้างตารางเดิมก่อน
-
-                    // วนลูปเอาข้อมูลที่ได้จาก Python (Backend) มาใส่ในตาราง
-                    data.forEach(item => {
-                        // รวมคำ Tokens ให้เป็นก้อนเดียวเพื่อแสดงผล
-                        let wordsHTML = "";
-                        if (item.tokens) {
-                            wordsHTML = item.tokens.map(token => `<span class="tag" style="font-size:11px;">${token}</span>`).join(' ');
-                        }
-
-                        const row = `<tr>
-                    <td>${item.original_text}</td>
-                    <td>${wordsHTML}</td>
-                    <td><span class="tag category">ทั่วไป</span></td>
-                    <td><span class="sentiment-badge ${item.sentiment.toLowerCase()}">${item.sentiment}</span></td>
-                </tr>`;
-
-                        tbody.innerHTML += row;
-                    });
-
-                    // อัปเดตตัวเลขจำนวนรีวิวทั้งหมดที่หัวการ์ด
-                    document.getElementById('stat-total').innerText = data.length;
+                    
+                    // เรียกฟังก์ชันเรนเดอร์แดชบอร์ดด้วยข้อมูลจริงที่ดึงมาได้
+                    renderDashboard(data); 
                 })
                 .catch(error => console.error("Error:", error));
         }
@@ -786,6 +765,56 @@
             // วาดกราฟ Pie Chart ด้วย Chart.js
             const ctx = document.getElementById('categoryChart').getContext('2d');
 
+            // ฟังก์ชันเรนเดอร์ข้อมูลในหน้าแดชบอร์ด (แก้ไขให้อ่านข้อมูลจาก Render จริง)
+        let chartInstance = null;
+        function renderDashboard(dataFromRender) { // 1. รับค่าข้อมูลจริงเข้ามาตรงนี้
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            let posCount = 0;
+            let negCount = 0;
+            let categoryCounts = {};
+
+            // 2. เปลี่ยนจาก mockData.forEach เป็น dataFromRender.forEach
+            dataFromRender.forEach(item => {
+                // นับจำนวน Sentiment
+                if (item.sentiment === 'Positive') posCount++;
+                if (item.sentiment === 'Negative') negCount++;
+
+                // นับจำนวนหมวดหมู่
+                const category = item.category || "ทั่วไป";
+                categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+
+                // รวมคำ Tokens ให้เป็นก้อนเดียวเพื่อแสดงผล
+                let wordsHTML = "";
+                if (item.tokens) {
+                    wordsHTML = item.tokens.map(token => `<span class="tag" style="font-size:11px;">${token}</span>`).join(' ');
+                }
+
+                // เติมข้อมูลลงในตาราง (ใช้ข้อมูลจริงจาก Render)
+                const row = `<tr>
+                    <td>${item.original_text || item.text}</td>
+                    <td>${wordsHTML}</td>
+                    <td><span class="tag category">${category}</span></td>
+                    <td><span class="sentiment-badge ${item.sentiment.toLowerCase()}">${item.sentiment}</span></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+
+            // อัปเดตตัวเลข Stats และคำนวณ %
+            let total = dataFromRender.length;
+            let posPercent = total > 0 ? Math.round((posCount / total) * 100) : 0;
+            let negPercent = total > 0 ? Math.round((negCount / total) * 100) : 0;
+
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-pos').innerText = posCount;
+            document.getElementById('stat-pos-percent').innerText = `ความรู้สึกเชิงบวก (${posPercent}%)`;
+            document.getElementById('stat-neg').innerText = negCount;
+            document.getElementById('stat-neg-percent').innerText = `ความรู้สึกเชิงลบ (${negPercent}%)`;
+
+            // วาดกราฟ Pie Chart
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+
             if (chartInstance) {
                 chartInstance.destroy();
             }
@@ -808,6 +837,7 @@
                     }
                 }
             });
+        }
         }
     </script>
 </body>
