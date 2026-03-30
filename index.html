@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +79,8 @@
             cursor: pointer;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
             font-weight: bold;
@@ -208,11 +210,30 @@
             font-weight: 500;
         }
 
-        .tag.pos { background-color: rgba(16, 185, 129, 0.15); color: var(--success); }
-        .tag.neg { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); }
-        .tag.category { background-color: rgba(59, 130, 246, 0.15); color: var(--secondary); }
-        .tag.keyword { background-color: rgba(245, 158, 11, 0.15); color: var(--accent); }
-        .tag.info { background-color: #e0f2fe; color: #0369a1; }
+        .tag.pos {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .tag.neg {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .tag.category {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: var(--secondary);
+        }
+
+        .tag.keyword {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent);
+        }
+
+        .tag.info {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
 
         /* --- Page 2: Dashboard --- */
         .stats-grid {
@@ -226,7 +247,7 @@
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -242,8 +263,15 @@
             font-size: 20px;
         }
 
-        .stat-data h3 { font-size: 24px; color: var(--primary); }
-        .stat-data p { color: var(--text-light); font-size: 14px; }
+        .stat-data h3 {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .stat-data p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
 
         .dashboard-grid {
             display: grid;
@@ -257,7 +285,8 @@
             margin-top: 15px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
@@ -269,7 +298,9 @@
             color: var(--text);
         }
 
-        tr:hover { background-color: #f8fafc; }
+        tr:hover {
+            background-color: #f8fafc;
+        }
 
         .sentiment-badge {
             padding: 4px 8px;
@@ -278,8 +309,16 @@
             font-weight: bold;
             display: inline-block;
         }
-        .sentiment-badge.positive { background-color: #dcfce7; color: var(--success); }
-        .sentiment-badge.negative { background-color: #fee2e2; color: var(--danger); }
+
+        .sentiment-badge.positive {
+            background-color: #dcfce7;
+            color: var(--success);
+        }
+
+        .sentiment-badge.negative {
+            background-color: #fee2e2;
+            color: var(--danger);
+        }
 
         .sarcasm-badge {
             background-color: #fef3c7;
@@ -296,20 +335,30 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            border: 3px solid rgba(255, 255, 255, .3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .dashboard-grid { grid-template-columns: 1fr; }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="sidebar">
@@ -317,8 +366,10 @@
             <i class="fa-solid fa-scissors"></i> BarberEase
         </div>
         <ul class="nav-links">
-            <li><a class="active" onclick="switchPage('review-page')"><i class="fa-solid fa-comment-dots"></i> ลูกค้าเขียนรีวิว</a></li>
-            <li><a onclick="switchPage('dashboard-page')"><i class="fa-solid fa-chart-pie"></i> แดชบอร์ดเจ้าของร้าน</a></li>
+            <li><a class="active" onclick="switchPage('review-page')"><i class="fa-solid fa-comment-dots"></i>
+                    ลูกค้าเขียนรีวิว</a></li>
+            <li><a onclick="switchPage('dashboard-page')"><i class="fa-solid fa-chart-pie"></i> แดชบอร์ดเจ้าของร้าน</a>
+            </li>
         </ul>
     </div>
 
@@ -333,25 +384,31 @@
             <div class="card">
                 <div class="form-group">
                     <label for="review-text">ความคิดเห็นของคุณ</label>
-                    <textarea id="review-text" placeholder="พิมพ์ข้อความของคุณที่นี่... เช่น 'เมื่อวานไปตัด Under cut กับ ช่างบอย มาครับ ราคา 250 บาท ถือว่าคุ้มค่ามาก แต่ แอร์ไม่ค่อยเย็น เลย'"></textarea>
+                    <textarea id="review-text"
+                        placeholder="พิมพ์ข้อความของคุณที่นี่... เช่น 'เมื่อวานไปตัด Under cut กับ ช่างบอย มาครับ ราคา 250 บาท ถือว่าคุ้มค่ามาก แต่ แอร์ไม่ค่อยเย็น เลย'"></textarea>
                 </div>
                 <button class="btn" onclick="submitReview()">
                     <span id="btn-content"><i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น</span>
                 </button>
 
                 <div id="process-area" class="process-result">
-                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase NLP Engine (Deep Analysis Simulator)</h3>
-                    
+                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase
+                        NLP Engine (Deep Analysis Simulator)</h3>
+
                     <div class="nlp-section" style="border-left-color: #a855f7;">
                         <h4><i class="fa-solid fa-layer-group"></i> ขั้นตอนการประมวลผล (Processing Levels)</h4>
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Morphological Level (การตัดคำ):</strong></p>
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Morphological Level (การตัดคำ):</strong>
+                        </p>
                         <div id="morph-result" style="margin-bottom: 10px;"></div>
-                        
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Lexical Level (การระบุประเภทของคำ POS):</strong></p>
+
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Lexical Level (การระบุประเภทของคำ
+                                POS):</strong></p>
                         <div id="lexical-result" style="margin-bottom: 10px;"></div>
 
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Syntactic Level (โครงสร้างประโยค):</strong></p>
-                        <div id="syntactic-result" style="margin-bottom: 10px; font-size:14px; color:var(--text-light);"></div>
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Syntactic Level
+                                (โครงสร้างประโยค):</strong></p>
+                        <div id="syntactic-result"
+                            style="margin-bottom: 10px; font-size:14px; color:var(--text-light);"></div>
 
                         <p style="font-size:14px; margin-bottom: 5px;"><strong>Semantic Analysis:</strong></p>
                         <div id="semantic-result"></div>
@@ -360,18 +417,22 @@
                     <div class="nlp-section" style="border-left-color: var(--accent);">
                         <h4><i class="fa-solid fa-key"></i> Keywords Extraction & Category</h4>
                         <div><strong>Keywords สำคัญ:</strong> <span id="keywords-result"></span></div>
-                        <div style="margin-top: 5px;"><strong>หมวดหมู่ประเด็น:</strong> <span id="category-result"></span></div>
+                        <div style="margin-top: 5px;"><strong>หมวดหมู่ประเด็น:</strong> <span
+                                id="category-result"></span></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: var(--success);">
-                        <h4><i class="fa-solid fa-face-smile"></i> Sentiment & Sarcasm Detection (การจัดการความกำกวม)</h4>
+                        <h4><i class="fa-solid fa-face-smile"></i> Sentiment & Sarcasm Detection (การจัดการความกำกวม)
+                        </h4>
                         <div><strong>ผลลัพธ์อารมณ์:</strong> <span id="sentiment-result"></span></div>
-                        <div style="margin-top: 5px;"><strong>การตรวจจับความประชดประชัน/กำกวม:</strong> <span id="ambiguity-result"></span></div>
+                        <div style="margin-top: 5px;"><strong>การตรวจจับความประชดประชัน/กำกวม:</strong> <span
+                                id="ambiguity-result"></span></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: #0284c7;">
                         <h4><i class="fa-solid fa-file-export"></i> 8. การสกัดสารสนเทศ (Information Extraction)</h4>
-                        <p style="font-size:13px; color:var(--text-light); margin-bottom:8px;">แปลง Unstructured Data เป็น Structured Data เพื่อบันทึกลงฐานข้อมูล</p>
+                        <p style="font-size:13px; color:var(--text-light); margin-bottom:8px;">แปลง Unstructured Data
+                            เป็น Structured Data เพื่อบันทึกลงฐานข้อมูล</p>
                         <div id="ie-result" style="font-size: 14px; line-height: 1.8;"></div>
                     </div>
                 </div>
@@ -437,7 +498,7 @@
                                 </tr>
                             </thead>
                             <tbody id="table-body">
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -445,7 +506,7 @@
                 <div class="card">
                     <h3 style="color: var(--primary); margin-bottom: 15px;">ปัญหาที่ถูกพูดถึงมากที่สุด</h3>
                     <div style="height: 300px; display: flex; align-items: center; justify-content: center;">
-                         <canvas id="categoryChart"></canvas>
+                        <canvas id="categoryChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -473,144 +534,211 @@
             "ทรงนักเรียน": "Noun", "ดีมาก": "Adjective", "ถูก": "Adjective"
         };
 
+        function submitComment() {
+            const commentText = document.getElementById("commentInput").value;
+
+            fetch("https://barberease-backend.onrender.com/api/submit-review", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: commentText })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("ส่งข้อมูลสำเร็จ!");
+                    console.log(data);
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
         // ฟังก์ชันสลับหน้าเว็บ
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            
+
             document.getElementById(pageId).classList.add('active');
             event.currentTarget.classList.add('active');
 
-            if(pageId === 'dashboard-page') {
-                renderDashboard();
+            // ถ้าเปิดมาหน้า Dashboard ให้โหลดข้อมูลใหม่จากเซิร์ฟเวอร์ทันที
+            if (pageId === 'dashboard-page') {
+                loadAllReviews();
             }
         }
+
+        function loadAllReviews() {
+            fetch("https://barberease-backend.onrender.com/api/get-reviews")
+                .then(response => response.json())
+                .then(data => {
+                    console.log("รีวิวทั้งหมดจากหลังบ้าน:", data);
+
+                    const tbody = document.getElementById('table-body');
+                    tbody.innerHTML = ''; // ล้างตารางเดิมก่อน
+
+                    // วนลูปเอาข้อมูลที่ได้จาก Python (Backend) มาใส่ในตาราง
+                    data.forEach(item => {
+                        // รวมคำ Tokens ให้เป็นก้อนเดียวเพื่อแสดงผล
+                        let wordsHTML = "";
+                        if (item.tokens) {
+                            wordsHTML = item.tokens.map(token => `<span class="tag" style="font-size:11px;">${token}</span>`).join(' ');
+                        }
+
+                        const row = `<tr>
+                    <td>${item.original_text}</td>
+                    <td>${wordsHTML}</td>
+                    <td><span class="tag category">ทั่วไป</span></td>
+                    <td><span class="sentiment-badge ${item.sentiment.toLowerCase()}">${item.sentiment}</span></td>
+                </tr>`;
+
+                        tbody.innerHTML += row;
+                    });
+
+                    // อัปเดตตัวเลขจำนวนรีวิวทั้งหมดที่หัวการ์ด
+                    document.getElementById('stat-total').innerText = data.length;
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
+        // สั่งให้ทำงานทันทีที่เปิดหน้าเว็บ
+        window.onload = loadAllReviews;
 
         // ฟังก์ชันจำลองการวิเคราะห์ของ AI เมื่อลูกค้ากดส่ง
         function submitReview() {
             const text = document.getElementById('review-text').value.trim();
-            if(!text) { alert('กรุณาพิมพ์ข้อความก่อนส่งครับ'); return; }
+            if (!text) { alert('กรุณาพิมพ์ข้อความก่อนส่งครับ'); return; }
 
             const btnContent = document.getElementById('btn-content');
-            btnContent.innerHTML = '<span class="loading"></span> กำลังประมวลผลด้วย AI...';
+            btnContent.innerHTML = '<span class="loading"></span> กำลังประมวลผลและส่งข้อมูล...';
 
-            setTimeout(() => {
-                // 1. Morphological Level (ตัดคำจำลอง)
-                let mockTokens = ["ช่าง", "ตัด", "ผม", "ดี", "มาก"]; 
-                if(text.includes("แอร์")) mockTokens = ["ร้าน", "สะอาด", "แอร์", "เย็น"];
-                if(text.includes("คุ้มค่า") || text.includes("250")) mockTokens = ["ตัด", "Under cut", "ช่างบอย", "ราคา", "250", "บาท", "คุ้มค่า", "แอร์", "ไม่", "เย็น"];
-                if(text.includes("มั้ง")) mockTokens = ["รอ", "คิว", "2", "ชั่วโมง", "ไม่", "นาน", "เลย", "มั้ง"];
-                
-                // เพิ่มการตัดคำสำหรับ ทรงนักเรียน
-                if(text.includes("ทรงนักเรียน")) mockTokens = ["ไป", "ตัดผม", "ทรงนักเรียน", "ราคา", "60", "บาท", "ดีมาก", "ถูก"];
+            // === ส่วนที่ 1: ประมวลผลจำลองเพื่อแสดงผลบนหน้าเว็บ (จากโค้ดแรก) ===
 
-                document.getElementById('morph-result').innerHTML = mockTokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
+            // 1. Morphological Level (ตัดคำจำลอง)
+            let mockTokens = ["ช่าง", "ตัด", "ผม", "ดี", "มาก"];
+            if (text.includes("แอร์")) mockTokens = ["ร้าน", "สะอาด", "แอร์", "เย็น"];
+            if (text.includes("คุ้มค่า") || text.includes("250")) mockTokens = ["ตัด", "Under cut", "ช่างบอย", "ราคา", "250", "บาท", "คุ้มค่า", "แอร์", "ไม่", "เย็น"];
+            if (text.includes("มั้ง")) mockTokens = ["รอ", "คิว", "2", "ชั่วโมง", "ไม่", "นาน", "เลย", "มั้ง"];
+            if (text.includes("ทรงนักเรียน")) mockTokens = ["ไป", "ตัดผม", "ทรงนักเรียน", "ราคา", "60", "บาท", "ดีมาก", "ถูก"];
 
-                // 2. Lexical Level (POS Tagging)
-                let lexicalHTML = "";
-                mockTokens.forEach(t => {
-                    let pos = posDict[t] || "Unknown";
-                    lexicalHTML += `<div class="tag">${t} (${pos})</div>`;
-                });
-                document.getElementById('lexical-result').innerHTML = lexicalHTML;
+            document.getElementById('morph-result').innerHTML = mockTokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
 
-                // 3. Syntactic Level
-                let syntacticText = "ร้าน (Subject) / สะอาด (Modifier)";
-                if(text.includes("ช่าง")) syntacticText = "ช่าง (Subject) / ตัดผม (Verb) / สวย (Modifier)";
-                if(text.includes("250")) syntacticText = "เมื่อวาน (Time) / ช่างบอย (Subject) / ตัด Under cut (Verb) / แอร์ (Subject) / ไม่เย็น (Modifier)";
-                if(text.includes("ทรงนักเรียน")) syntacticText = "ราคา (Subject) / 60บาท (Modifier)";
-                document.getElementById('syntactic-result').innerText = syntacticText;
+            // 2. Lexical Level (POS Tagging)
+            let lexicalHTML = "";
+            mockTokens.forEach(t => {
+                let pos = (typeof posDict !== 'undefined' && posDict[t]) ? posDict[t] : "Unknown";
+                lexicalHTML += `<div class="tag">${t} (${pos})</div>`;
+            });
+            document.getElementById('lexical-result').innerHTML = lexicalHTML;
 
-                // 4. Semantic Analysis & Keywords
-                let category = "ทั่วไป";
-                let sentiment = "Positive";
-                let sarcasm = false;
-                let extractedKeywords = [];
+            // 3. Syntactic Level
+            let syntacticText = "ร้าน (Subject) / สะอาด (Modifier)";
+            if (text.includes("ช่าง")) syntacticText = "ช่าง (Subject) / ตัดผม (Verb) / สวย (Modifier)";
+            if (text.includes("250")) syntacticText = "เมื่อวาน (Time) / ช่างบอย (Subject) / ตัด Under cut (Verb) / แอร์ (Subject) / ไม่เย็น (Modifier)";
+            if (text.includes("ทรงนักเรียน")) syntacticText = "ราคา (Subject) / 60บาท (Modifier)";
+            document.getElementById('syntactic-result').innerText = syntacticText;
 
-                if(text.includes('ช่าง') || text.includes('ตัด')) { category = "คุณภาพงานช่าง"; extractedKeywords.push("ช่าง", "ตัดผม"); }
-                if(text.includes('สะอาด') || text.includes('แอร์') || text.includes('ร้าน')) { category = "สถานที่และสิ่งอำนวยความสะดวก"; extractedKeywords.push("ร้าน", "แอร์"); }
-                if(text.includes('คิว') || text.includes('รอ') || text.includes('จอง')) { category = "ระบบการจอง"; extractedKeywords.push("รอคิว", "จอง"); }
-                if(text.includes('คุ้ม') || text.includes('ราคา') || text.includes('บาท') || text.includes('ถูก')) {
-                    extractedKeywords.push("ราคา");
-                    if(text.includes('ถูก')) extractedKeywords.push("ถูก");
-                    if(text.includes('คุ้ม')) extractedKeywords.push("คุ้มค่า");
+            // 4. Semantic Analysis & Keywords
+            let category = "ทั่วไป";
+            let sentiment = "Positive";
+            let extractedKeywords = [];
+
+            if (text.includes('ช่าง') || text.includes('ตัด')) { category = "คุณภาพงานช่าง"; extractedKeywords.push("ช่าง", "ตัดผม"); }
+            if (text.includes('สะอาด') || text.includes('แอร์') || text.includes('ร้าน')) { category = "สถานที่และสิ่งอำนวยความสะดวก"; extractedKeywords.push("ร้าน", "แอร์"); }
+            if (text.includes('คิว') || text.includes('รอ') || text.includes('จอง')) { category = "ระบบการจอง"; extractedKeywords.push("รอคิว", "จอง"); }
+            if (text.includes('คุ้ม') || text.includes('ราคา') || text.includes('บาท') || text.includes('ถูก')) {
+                extractedKeywords.push("ราคา");
+                if (text.includes('ถูก')) extractedKeywords.push("ถูก");
+                if (text.includes('คุ้ม')) extractedKeywords.push("คุ้มค่า");
+            }
+
+            if (text.includes('ช้า') || text.includes('นาน') || text.includes('ไม่') || text.includes('แย่') || text.includes('แอร์ไม่ค่อยเย็น')) {
+                sentiment = "Negative";
+            }
+
+            // การตรวจจับความกำกวม/ประชดประชัน (Sarcasm Detection)
+            let ambiguityHTML = "<span style='color:var(--success); font-weight:bold;'>ไม่พบความกำกวม ปกติ</span>";
+            if (text.includes("มั้ง") || text.includes("เอง") && text.includes("ไม่นาน")) {
+                sentiment = "Negative";
+                ambiguityHTML = "<span style='color:var(--danger); font-weight:bold;'>ตรวจพบการประชดประชัน (Sarcasm)</span> ระบบทำการปรับค่า Sentiment จาก Positive ➔ Negative";
+            }
+
+            document.getElementById('semantic-result').innerHTML = `<strong>Topic:</strong> ${category} | <strong>Intent:</strong> Feedback`;
+            document.getElementById('keywords-result').innerHTML = extractedKeywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
+            document.getElementById('category-result').innerHTML = `<div class="tag category">${category}</div>`;
+
+            let sentPercent = sentiment === 'Positive' ? '70%' : '80%';
+            document.getElementById('sentiment-result').innerHTML = `<div class="tag ${sentiment === 'Positive' ? 'pos' : 'neg'}">${sentiment} (${sentPercent} confidence)</div>`;
+            document.getElementById('ambiguity-result').innerHTML = ambiguityHTML;
+
+            // 5. Information Extraction (สกัดสารสนเทศ)
+            let ieHTML = "";
+            let entity_staff = "ไม่ระบุ";
+            let entity_service = "ไม่ระบุ";
+            let entity_time = "ไม่ระบุ";
+            let entity_price = "ไม่ระบุ";
+            let entity_issue = "ไม่มี";
+
+            if (text.includes("ช่างบอย")) entity_staff = "ช่างบอย";
+            if (text.includes("ช่างเอ")) entity_staff = "ช่างเอ";
+
+            if (text.includes("Under cut")) entity_service = "Under cut";
+            if (text.includes("ทรงนักเรียน")) entity_service = "ทรงนักเรียน";
+            if (text.includes("รองทรง")) entity_service = "รองทรง";
+
+            if (text.includes("เมื่อวาน")) entity_time = "เมื่อวานนี้";
+            if (text.includes("วันนี้")) entity_time = "วันนี้";
+
+            const priceRegex = /(\d+\s*บาท)/;
+            const priceMatch = text.match(priceRegex);
+            if (priceMatch) {
+                entity_price = priceMatch[0];
+                if (text.includes("คุ้ม") || text.includes("ถูก")) {
+                    entity_price += " (Value: Good)";
                 }
+            } else if (text.includes("250")) {
+                entity_price = "250 บาท (Value: Good)";
+            }
 
-                if(text.includes('ช้า') || text.includes('นาน') || text.includes('ไม่') || text.includes('แย่') || text.includes('แอร์ไม่ค่อยเย็น')) {
-                    sentiment = "Negative";
-                }
+            if (text.includes("แอร์ไม่ค่อยเย็น") || text.includes("ร้อน")) entity_issue = "Facility (Air Conditioner)";
+            if (text.includes("รอนาน") || text.includes("คิวยาว")) entity_issue = "ระบบคิว (Delay)";
 
-                // การตรวจจับความกำกวม/ประชดประชัน (Sarcasm Detection)
-                let ambiguityHTML = "<span style='color:var(--success); font-weight:bold;'>ไม่พบความกำกวม ปกติ</span>";
-                if(text.includes("มั้ง") || text.includes("เอง") && text.includes("ไม่นาน")) {
-                    sarcasm = true;
-                    sentiment = "Negative"; // ถึงคำจะดูบวกแต่ประชด ให้เป็น Negative
-                    ambiguityHTML = "<span style='color:var(--danger); font-weight:bold;'>ตรวจพบการประชดประชัน (Sarcasm)</span> ระบบทำการปรับค่า Sentiment จาก Positive ➔ Negative";
-                }
+            ieHTML = `
+        • <strong>Named Entity Recognition (NER):</strong> Staff: <span class='tag info'>${entity_staff}</span>, Service Type: <span class='tag info'>${entity_service}</span><br>
+        • <strong>Time Extraction:</strong> <span class='tag info'>${entity_time}</span><br>
+        • <strong>Attribute Extraction:</strong> Price: <span class='tag info'>${entity_price}</span><br>
+        • <strong>Issue Detected:</strong> <span class='tag info'>${entity_issue}</span>
+    `;
+            document.getElementById('ie-result').innerHTML = ieHTML;
 
-                document.getElementById('semantic-result').innerHTML = `<strong>Topic:</strong> ${category} | <strong>Intent:</strong> Feedback`;
-                document.getElementById('keywords-result').innerHTML = extractedKeywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
-                document.getElementById('category-result').innerHTML = `<div class="tag category">${category}</div>`;
-                
-                let sentPercent = sentiment === 'Positive' ? '70%' : '80%';
-                document.getElementById('sentiment-result').innerHTML = `<div class="tag ${sentiment === 'Positive' ? 'pos' : 'neg'}">${sentiment} (${sentPercent} confidence)</div>`;
-                document.getElementById('ambiguity-result').innerHTML = ambiguityHTML;
+            // แสดงพื้นที่ผลลัพธ์ NLP
+            document.getElementById('process-area').style.display = 'block';
 
-                // --- 8. Information Extraction (สกัดสารสนเทศ) - แก้ไขเพิ่มเติมตรงนี้ ---
-                let ieHTML = "";
-                let entity_staff = "ไม่ระบุ";
-                let entity_service = "ไม่ระบุ";
-                let entity_time = "ไม่ระบุ";
-                let entity_price = "ไม่ระบุ";
-                let entity_issue = "ไม่มี";
 
-                // ดักจับชื่อช่าง
-                if(text.includes("ช่างบอย")) entity_staff = "ช่างบอย";
-                if(text.includes("ช่างเอ")) entity_staff = "ช่างเอ";
-                
-                // ดักจับรูปแบบบริการ
-                if(text.includes("Under cut")) entity_service = "Under cut";
-                if(text.includes("ทรงนักเรียน")) entity_service = "ทรงนักเรียน";
-                if(text.includes("รองทรง")) entity_service = "รองทรง";
-                
-                // ดักจับเวลา
-                if(text.includes("เมื่อวาน")) entity_time = "เมื่อวานนี้";
-                if(text.includes("วันนี้")) entity_time = "วันนี้";
-                
-                // ดักจับราคาแบบยืดหยุ่นด้วย Regular Expression (เช็กตัวเลข + บาท)
-                const priceRegex = /(\d+\s*บาท)/;
-                const priceMatch = text.match(priceRegex);
-                if(priceMatch) {
-                    entity_price = priceMatch[0];
-                    if(text.includes("คุ้ม") || text.includes("ถูก")) {
-                        entity_price += " (Value: Good)";
+            // === ส่วนที่ 2: ยิงข้อมูลขึ้น API Render ของจริง (จากโค้ดที่สอง) ===
+
+            fetch("https://barberease-backend.onrender.com/api/submit-review", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: text }) // ส่งข้อความที่พิมพ์ไป
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("ส่งความคิดเห็นสำเร็จและบันทึกลงระบบแล้ว!");
+                    document.getElementById('review-text').value = ''; // ล้างช่องพิมพ์
+                    btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
+
+                    // ถ้าหน้า Dashboard เปิดอยู่ ให้รีเฟรชข้อมูลให้เห็นเดี๋ยวนั้นเลย
+                    const dashboardPage = document.getElementById('dashboard-page');
+                    if (dashboardPage && dashboardPage.classList.contains('active')) {
+                        loadAllReviews();
                     }
-                } else if(text.includes("250")) {
-                    entity_price = "250 บาท (Value: Good)";
-                }
-                
-                // ดักจับประเด็นปัญหา
-                if(text.includes("แอร์ไม่ค่อยเย็น") || text.includes("ร้อน")) entity_issue = "Facility (Air Conditioner)";
-                if(text.includes("รอนาน") || text.includes("คิวยาว")) entity_issue = "ระบบคิว (Delay)";
-
-                ieHTML = `
-                    • <strong>Named Entity Recognition (NER):</strong> Staff: <span class='tag info'>${entity_staff}</span>, Service Type: <span class='tag info'>${entity_service}</span><br>
-                    • <strong>Time Extraction:</strong> <span class='tag info'>${entity_time}</span><br>
-                    • <strong>Attribute Extraction:</strong> Price: <span class='tag info'>${entity_price}</span><br>
-                    • <strong>Issue Detected:</strong> <span class='tag info'>${entity_issue}</span>
-                `;
-                document.getElementById('ie-result').innerHTML = ieHTML;
-
-                // โชว์ผลลัพธ์ทั้งหมด
-                document.getElementById('process-area').style.display = 'block';
-
-                // แอดข้อมูลใหม่ลงฐานข้อมูลจำลอง
-                mockData.unshift({ text, keywords: extractedKeywords, category, sentiment, sarcasm });
-
-                // คืนค่าปุ่ม
-                btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
-                alert('ส่งรีวิวเรียบร้อย! ข้อมูลผ่านการสกัดสารสนเทศและส่งไปยังแดชบอร์ดแล้ว');
-            }, 1500);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("การประมวลผลบนเว็บสำเร็จ แต่เกิดข้อผิดพลาดในการเชื่อมต่อเพื่อบันทึกลงเซิร์ฟเวอร์");
+                    btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
+                });
         }
 
         // ฟังก์ชันเรนเดอร์ข้อมูลในหน้าแดชบอร์ด
@@ -625,8 +753,8 @@
 
             mockData.forEach(item => {
                 // นับจำนวน Sentiment
-                if(item.sentiment === 'Positive') posCount++;
-                if(item.sentiment === 'Negative') negCount++;
+                if (item.sentiment === 'Positive') posCount++;
+                if (item.sentiment === 'Negative') negCount++;
 
                 // นับจำนวนหมวดหมู่
                 categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
@@ -657,7 +785,7 @@
 
             // วาดกราฟ Pie Chart ด้วย Chart.js
             const ctx = document.getElementById('categoryChart').getContext('2d');
-            
+
             if (chartInstance) {
                 chartInstance.destroy();
             }
@@ -683,4 +811,5 @@
         }
     </script>
 </body>
+
 </html>
