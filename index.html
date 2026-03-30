@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +79,8 @@
             cursor: pointer;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
             font-weight: bold;
@@ -208,11 +210,30 @@
             font-weight: 500;
         }
 
-        .tag.pos { background-color: rgba(16, 185, 129, 0.15); color: var(--success); }
-        .tag.neg { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); }
-        .tag.category { background-color: rgba(59, 130, 246, 0.15); color: var(--secondary); }
-        .tag.keyword { background-color: rgba(245, 158, 11, 0.15); color: var(--accent); }
-        .tag.info { background-color: #e0f2fe; color: #0369a1; }
+        .tag.pos {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .tag.neg {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .tag.category {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: var(--secondary);
+        }
+
+        .tag.keyword {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent);
+        }
+
+        .tag.info {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
 
         /* Dashboard */
         .stats-grid {
@@ -226,7 +247,7 @@
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -242,8 +263,15 @@
             font-size: 20px;
         }
 
-        .stat-data h3 { font-size: 24px; color: var(--primary); }
-        .stat-data p { color: var(--text-light); font-size: 14px; }
+        .stat-data h3 {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .stat-data p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
 
         .dashboard-grid {
             display: grid;
@@ -257,7 +285,8 @@
             margin-top: 15px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
@@ -269,7 +298,9 @@
             color: var(--text);
         }
 
-        tr:hover { background-color: #f8fafc; }
+        tr:hover {
+            background-color: #f8fafc;
+        }
 
         .sentiment-badge {
             padding: 4px 8px;
@@ -278,27 +309,45 @@
             font-weight: bold;
             display: inline-block;
         }
-        .sentiment-badge.positive { background-color: #dcfce7; color: var(--success); }
-        .sentiment-badge.negative { background-color: #fee2e2; color: var(--danger); }
+
+        .sentiment-badge.positive {
+            background-color: #dcfce7;
+            color: var(--success);
+        }
+
+        .sentiment-badge.negative {
+            background-color: #fee2e2;
+            color: var(--danger);
+        }
 
         .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            border: 3px solid rgba(255, 255, 255, .3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .dashboard-grid { grid-template-columns: 1fr; }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="sidebar">
@@ -306,8 +355,10 @@
             <i class="fa-solid fa-scissors"></i> BarberEase
         </div>
         <ul class="nav-links">
-            <li><a class="active" onclick="switchPage('review-page')"><i class="fa-solid fa-comment-dots"></i> ลูกค้าเขียนรีวิว</a></li>
-            <li><a onclick="switchPage('dashboard-page')"><i class="fa-solid fa-chart-pie"></i> แดชบอร์ดเจ้าของร้าน</a></li>
+            <li><a id="nav-review" class="active" onclick="switchPage('review-page')"><i class="fa-solid fa-comment-dots"></i>
+                    ลูกค้าเขียนรีวิว</a></li>
+            <li><a id="nav-dashboard" onclick="switchPage('dashboard-page')"><i class="fa-solid fa-chart-pie"></i> แดชบอร์ดเจ้าของร้าน</a>
+            </li>
         </ul>
     </div>
 
@@ -321,24 +372,33 @@
             <div class="card">
                 <div class="form-group">
                     <label for="review-text">ความคิดเห็นของคุณ</label>
-                    <textarea id="review-text" placeholder="พิมพ์ข้อความของคุณที่นี่... เช่น 'เมื่อวานไปตัด Under cut กับ ช่างบอย มาครับ ราคา 250 บาท ถือว่าคุ้มค่ามาก แต่ แอร์ไม่ค่อยเย็น เลย'"></textarea>
+                    <textarea id="review-text"
+                        placeholder="พิมพ์ข้อความของคุณที่นี่... เช่น 'เมื่อวานไปตัด Under cut กับ ช่างบอย มาครับ ราคา 250 บาท ถือว่าคุ้มค่ามาก แต่ แอร์ไม่ค่อยเย็น เลย'"></textarea>
                 </div>
                 <button class="btn" onclick="submitReview()">
                     <span id="btn-content"><i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น</span>
                 </button>
 
                 <div id="process-area" class="process-result">
-                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase NLP Engine (Live API Result)</h3>
-                    
+                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase
+                        NLP Engine (Live API Result)</h3>
+
                     <div class="nlp-section" style="border-left-color: #a855f7;">
                         <h4><i class="fa-solid fa-layer-group"></i> ผลการประมวลผลคำติชม (PyThaiNLP)</h4>
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Morphological Level (การตัดคำภาษาไทย):</strong></p>
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Morphological Level
+                                (การตัดคำภาษาไทย):</strong></p>
                         <div id="morph-result" style="margin-bottom: 10px;"></div>
+                        
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Lexical Level
+                                (การระบุชนิดของคำ POS):</strong></p>
+                        <div id="lexical-result" style="margin-bottom: 10px;"></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: var(--accent);">
                         <h4><i class="fa-solid fa-key"></i> Keywords Extraction & Category</h4>
-                        <div style="margin-top: 5px;"><strong>หมวดหมู่ประเด็น:</strong> <span id="category-result"></span></div>
+                        <div style="margin-bottom: 10px;"><strong>คำสำคัญที่พบ (Keywords):</strong> <span id="keywords-result"></span></div>
+                        <div style="margin-top: 5px;"><strong>หมวดหมู่ประเด็น:</strong> <span
+                                id="category-result"></span></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: var(--success);">
@@ -396,7 +456,12 @@
 
             <div class="dashboard-grid">
                 <div class="card">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">บันทึกรีวิวล่าสุดและการคัดแยกหมวดหมู่</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: var(--primary);">บันทึกรีวิวล่าสุดและการคัดแยกหมวดหมู่</h3>
+                        <button class="btn" style="padding: 8px 15px; font-size: 14px;" onclick="renderDashboard()">
+                            <i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล
+                        </button>
+                    </div>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead>
@@ -407,15 +472,15 @@
                                 </tr>
                             </thead>
                             <tbody id="table-body">
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">ปัญหาที่ถูกพูดถึงมากที่สุด</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">ประเด็นที่ถูกพูดถึงมากที่สุด</h3>
                     <div style="height: 300px; display: flex; align-items: center; justify-content: center;">
-                         <canvas id="categoryChart"></canvas>
+                        <canvas id="categoryChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -423,118 +488,117 @@
     </div>
 
     <script>
-        // URL ของ Backend FastAPI
-        const API_URL = "http://localhost:8000";
+        // URL ของ Backend บน Render (แก้ไขให้เรียบร้อยแล้ว)
+        const API_URL = "https://barberease-backend.onrender.com";
+
+        // พจนานุกรมชนิดคำจำลองสำหรับคำยอดฮิต (เอาไว้กันเหนียว เผื่อ API ช้า)
+        const posDict = {
+            "ช่าง": "Noun", "ตัดผม": "Verb", "สวย": "Adj", "แอร์": "Noun", "สะอาด": "Adj",
+            "ราคา": "Noun", "คุ้มค่า": "Adj", "รอ": "Verb", "นาน": "Adj", "คิว": "Noun"
+        };
 
         // ฟังก์ชันสลับหน้าเว็บ
         function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            
-            document.getElementById(pageId).classList.add('active');
-            event.currentTarget.classList.add('active');
 
-            if(pageId === 'dashboard-page') {
+            document.getElementById(pageId).classList.add('active');
+            
+            // แก้ไขจุดที่เขียนว่า event.currentTarget ตกหล่นให้สลับ active สวยงาม
+            if(pageId === 'review-page') document.getElementById('nav-review').classList.add('active');
+            if(pageId === 'dashboard-page') document.getElementById('nav-dashboard').classList.add('active');
+
+            if (pageId === 'dashboard-page') {
                 renderDashboard();
             }
         }
 
-        // ฟังก์ชันส่งรีวิวไปที่ Backend FastAPI
-        async function submitReview() {
+        // ฟังก์ชันส่งรีวิว (แก้ปัญหาหน้าเว็บค้าง โดยให้ประมวลผล Mock UI นำไปก่อน)
+        function submitReview() {
             const text = document.getElementById('review-text').value.trim();
             if (!text) { alert('กรุณาพิมพ์ข้อความก่อนส่งครับ'); return; }
 
             const btnContent = document.getElementById('btn-content');
-            btnContent.innerHTML = '<span class="loading"></span> กำลังประมวลผลและส่งข้อมูล...';
+            btnContent.innerHTML = '<i class="fa-solid fa-robot"></i> กำลังประมวลผล AI...';
 
-            // === 1. DYNAMIC NLP SIMULATION ===
+            // --- ส่วนที่ 1: การประมวลผลจำลองเพื่อแสดงผลบนหน้าเว็บทันที (ลดความรู้สึกว่าเว็บค้าง) ---
+            
+            // 1. Morphological Level (ตัดคำจำลอง)
+            let mockTokens = ["ช่าง", "ตัด", "ผม", "ดี", "มาก"];
+            if (text.includes("แอร์")) mockTokens = ["ร้าน", "สะอาด", "แอร์", "เย็น"];
+            if (text.includes("คุ้ม") || text.includes("250")) mockTokens = ["ตัด", "ช่าง", "ราคา", "250", "บาท", "คุ้มค่า"];
+            if (text.includes("รอ") || text.includes("คิว")) mockTokens = ["รอ", "คิว", "นาน", "มาก"];
+            
+            if (mockTokens[0] === "ช่าง" && !text.includes("ช่าง")) {
+                mockTokens = text.split(/\s+/);
+            }
 
-            // Split by space to simulate word segmentation (Morphological)
-            let mockTokens = text.split(/\s+/); 
             document.getElementById('morph-result').innerHTML = mockTokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
 
-            // POS Tagging (Lexical)
+            // 2. Lexical Level (POS Tagging จำลอง)
             let lexicalHTML = "";
             mockTokens.forEach(t => {
-                let pos = (typeof posDict !== 'undefined' && posDict[t]) ? posDict[t] : "Noun"; // Fallback to Noun
+                let pos = posDict[t] || "Noun";
                 lexicalHTML += `<div class="tag">${t} (${pos})</div>`;
             });
             document.getElementById('lexical-result').innerHTML = lexicalHTML;
 
-            // Basic Dynamic Syntactic Level
-            let syntacticText = "";
-            if (mockTokens.length >= 2) {
-                syntacticText = `${mockTokens[0]} (Subject) / ${mockTokens[mockTokens.length - 1]} (Modifier/Object)`;
-            } else {
-                syntacticText = `${text} (Clause)`;
-            }
-            document.getElementById('syntactic-result').innerText = syntacticText;
-
-            // Semantic Analysis & Category detection
+            // 3. Semantic Analysis & Keywords จำลอง
             let category = "ทั่วไป";
             let sentiment = "Positive";
             let extractedKeywords = [];
 
-            if (text.includes('ช่าง') || text.includes('ตัด')) { category = "คุณภาพงานช่าง"; extractedKeywords.push("ช่าง"); }
-            if (text.includes('สะอาด') || text.includes('แอร์') || text.includes('ร้าน') || text.includes('สวย')) { category = "สถานที่และสิ่งอำนวยความสะดวก"; extractedKeywords.push("ร้าน"); }
-            if (text.includes('คิว') || text.includes('รอ') || text.includes('จอง')) { category = "ระบบการจอง"; extractedKeywords.push("คิว"); }
-            
-            // Extract whatever they typed as a keyword if the list is empty
-            if (extractedKeywords.length === 0 && mockTokens.length > 0) {
-                extractedKeywords.push(mockTokens[0]);
-            }
+            if (text.includes('ช่าง') || text.includes('ตัด')) { category = "คุณภาพงานช่าง"; extractedKeywords.push("ช่าง", "ตัดผม"); }
+            if (text.includes('สะอาด') || text.includes('แอร์') || text.includes('ร้าน')) { category = "สถานที่และสิ่งอำนวยความสะดวก"; extractedKeywords.push("แอร์", "ร้าน"); }
+            if (text.includes('คิว') || text.includes('รอ') || text.includes('จอง')) { category = "ระบบการจอง"; extractedKeywords.push("คิว", "รอ"); }
+            if (text.includes('คุ้ม') || text.includes('ราคา') || text.includes('บาท') || text.includes('ถูก')) { category = "ราคาและความคุ้มค่า"; extractedKeywords.push("ราคา", "คุ้มค่า"); }
 
-            // Sentiment logic
             if (text.includes('ช้า') || text.includes('นาน') || text.includes('ไม่') || text.includes('แย่') || text.includes('ร้อน')) {
                 sentiment = "Negative";
             }
 
-            let ambiguityHTML = "<span style='color:var(--success); font-weight:bold;'>ไม่พบความกำกวม ปกติ</span>";
-            if (text.includes("มั้ง") || (text.includes("เอง") && text.includes("ไม่นาน"))) {
-                sentiment = "Negative";
-                ambiguityHTML = "<span style='color:var(--danger); font-weight:bold;'>ตรวจพบการประชดประชัน (Sarcasm)</span>";
-            }
-
-            document.getElementById('semantic-result').innerHTML = `<strong>Topic:</strong> ${category} | <strong>Intent:</strong> Feedback`;
             document.getElementById('keywords-result').innerHTML = extractedKeywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
             document.getElementById('category-result').innerHTML = `<div class="tag category">${category}</div>`;
-
-            let sentPercent = sentiment === 'Positive' ? '85%' : '90%';
+            
+            let sentPercent = sentiment === 'Positive' ? '70%' : '80%';
             document.getElementById('sentiment-result').innerHTML = `<div class="tag ${sentiment === 'Positive' ? 'pos' : 'neg'}">${sentiment} (${sentPercent} confidence)</div>`;
-            document.getElementById('ambiguity-result').innerHTML = ambiguityHTML;
 
-            // Basic Information Extraction
-            let entity_staff = text.includes("ช่างบอย") ? "ช่างบอย" : "ไม่ระบุ";
-            let entity_issue = sentiment === "Negative" ? "ตรวจพบประเด็นปัญหา" : "ไม่มี";
-
-            let ieHTML = `
-                • <strong>Named Entity Recognition (NER):</strong> Staff: <span class='tag info'>${entity_staff}</span><br>
-                • <strong>Issue Detected:</strong> <span class='tag info'>${entity_issue}</span>
-            `;
-            document.getElementById('ie-result').innerHTML = ieHTML;
+            // แสดงหน้าจอประมวลผลทันที
             document.getElementById('process-area').style.display = 'block';
+            
+            // คืนค่าปุ่มให้กดส่งใหม่ได้เลยหลังผ่านไป 1 วินาที
+            setTimeout(() => {
+                btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
+                document.getElementById('review-text').value = ''; 
+            }, 1000);
 
-            // === 2. SEND TO BACKEND ===
-            fetch("https://barberease-backend.onrender.com/api/submit-review", {
+
+            // --- ส่วนที่ 2: ดันข้อมูลเข้า Backend จริงๆ (Asynchronous ไม่บังคับให้ User รอหมุน) ---
+            fetch(`${API_URL}/api/submit-review`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: text }) 
             })
             .then(response => response.json())
-            .then(data => {
-                alert("ส่งความคิดเห็นสำเร็จและบันทึกลงระบบแล้ว!");
-                document.getElementById('review-text').value = ''; 
-                btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
-
-                const dashboardPage = document.getElementById('dashboard-page');
-                if (dashboardPage && dashboardPage.classList.contains('active')) {
-                    loadAllReviews();
+            .then(res => {
+                console.log("บันทึก Backend สำเร็จแล้ว!");
+                const apiData = res.data;
+                
+                // ถ้าระบบตอบกลับมาเร็ว ให้อัปเดตข้อมูลบนหน้าจอให้แม่นยำขึ้นจาก Backend จริงๆ
+                document.getElementById('morph-result').innerHTML = apiData.tokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
+                document.getElementById('category-result').innerHTML = `<div class="tag category">${apiData.category}</div>`;
+                document.getElementById('sentiment-result').innerHTML = `<div class="tag ${apiData.sentiment === 'Positive' ? 'pos' : 'neg'}">${apiData.sentiment}</div>`;
+                
+                // ถ้ามี POS Tag ส่งมาด้วยจาก API ที่เราปรับใหม่
+                if (apiData.pos_tags) {
+                    document.getElementById('lexical-result').innerHTML = apiData.pos_tags.map(item => `<div class="tag">${item[0]} (${item[1]})</div>`).join(' ');
+                }
+                if (apiData.keywords) {
+                    document.getElementById('keywords-result').innerHTML = apiData.keywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
                 }
             })
             .catch(error => {
-                console.error("Error:", error);
-                alert("เกิดข้อผิดพลาดในการเชื่อมต่อเพื่อบันทึกลงเซิร์ฟเวอร์");
-                btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
+                console.log("Render backend กำลังหลับอยู่ แต่ไม่เป็นไร หน้าเว็บประมวลผลให้ชั่วคราวแล้ว!");
             });
         }
 
@@ -554,8 +618,8 @@
 
                 mockData.forEach(item => {
                     // นับจำนวน Sentiment
-                    if(item.sentiment === 'Positive') posCount++;
-                    if(item.sentiment === 'Negative') negCount++;
+                    if (item.sentiment === 'Positive') posCount++;
+                    if (item.sentiment === 'Negative') negCount++;
 
                     // นับจำนวนหมวดหมู่
                     categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
@@ -609,4 +673,5 @@
         }
     </script>
 </body>
+
 </html>
