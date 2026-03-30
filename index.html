@@ -123,7 +123,7 @@
             margin-bottom: 30px;
         }
 
-        /* --- Page 1: Customer Review Form --- */
+        /* Form Styles */
         .form-group {
             margin-bottom: 20px;
         }
@@ -214,7 +214,7 @@
         .tag.keyword { background-color: rgba(245, 158, 11, 0.15); color: var(--accent); }
         .tag.info { background-color: #e0f2fe; color: #0369a1; }
 
-        /* --- Page 2: Dashboard --- */
+        /* Dashboard */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -281,17 +281,6 @@
         .sentiment-badge.positive { background-color: #dcfce7; color: var(--success); }
         .sentiment-badge.negative { background-color: #fee2e2; color: var(--danger); }
 
-        .sarcasm-badge {
-            background-color: #fef3c7;
-            color: #d97706;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            margin-left: 5px;
-            border: 1px solid #fcd34d;
-        }
-
-        /* Quick loading effect */
         .loading {
             display: inline-block;
             width: 20px;
@@ -323,7 +312,6 @@
     </div>
 
     <div class="main-content">
-
         <div id="review-page" class="page active">
             <header>
                 <h1>แสดงความคิดเห็นการใช้บริการ</h1>
@@ -340,39 +328,22 @@
                 </button>
 
                 <div id="process-area" class="process-result">
-                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase NLP Engine (Deep Analysis Simulator)</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase NLP Engine (Live API Result)</h3>
                     
                     <div class="nlp-section" style="border-left-color: #a855f7;">
-                        <h4><i class="fa-solid fa-layer-group"></i> ขั้นตอนการประมวลผล (Processing Levels)</h4>
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Morphological Level (การตัดคำ):</strong></p>
+                        <h4><i class="fa-solid fa-layer-group"></i> ผลการประมวลผลคำติชม (PyThaiNLP)</h4>
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Morphological Level (การตัดคำภาษาไทย):</strong></p>
                         <div id="morph-result" style="margin-bottom: 10px;"></div>
-                        
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Lexical Level (การระบุประเภทของคำ POS):</strong></p>
-                        <div id="lexical-result" style="margin-bottom: 10px;"></div>
-
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Syntactic Level (โครงสร้างประโยค):</strong></p>
-                        <div id="syntactic-result" style="margin-bottom: 10px; font-size:14px; color:var(--text-light);"></div>
-
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Semantic Analysis:</strong></p>
-                        <div id="semantic-result"></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: var(--accent);">
                         <h4><i class="fa-solid fa-key"></i> Keywords Extraction & Category</h4>
-                        <div><strong>Keywords สำคัญ:</strong> <span id="keywords-result"></span></div>
                         <div style="margin-top: 5px;"><strong>หมวดหมู่ประเด็น:</strong> <span id="category-result"></span></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: var(--success);">
-                        <h4><i class="fa-solid fa-face-smile"></i> Sentiment & Sarcasm Detection (การจัดการความกำกวม)</h4>
+                        <h4><i class="fa-solid fa-face-smile"></i> Sentiment Result</h4>
                         <div><strong>ผลลัพธ์อารมณ์:</strong> <span id="sentiment-result"></span></div>
-                        <div style="margin-top: 5px;"><strong>การตรวจจับความประชดประชัน/กำกวม:</strong> <span id="ambiguity-result"></span></div>
-                    </div>
-
-                    <div class="nlp-section" style="border-left-color: #0284c7;">
-                        <h4><i class="fa-solid fa-file-export"></i> 8. การสกัดสารสนเทศ (Information Extraction)</h4>
-                        <p style="font-size:13px; color:var(--text-light); margin-bottom:8px;">แปลง Unstructured Data เป็น Structured Data เพื่อบันทึกลงฐานข้อมูล</p>
-                        <div id="ie-result" style="font-size: 14px; line-height: 1.8;"></div>
                     </div>
                 </div>
             </div>
@@ -387,7 +358,7 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-data">
-                        <h3 id="stat-total">12</h3>
+                        <h3 id="stat-total">0</h3>
                         <p>รีวิวทั้งหมด</p>
                     </div>
                     <div class="stat-icon" style="background-color: rgba(59, 130, 246, 0.1); color: var(--secondary);">
@@ -396,8 +367,8 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-data">
-                        <h3 id="stat-pos">9</h3>
-                        <p id="stat-pos-percent">ความรู้สึกเชิงบวก (75%)</p>
+                        <h3 id="stat-pos">0</h3>
+                        <p id="stat-pos-percent">ความรู้สึกเชิงบวก (0%)</p>
                     </div>
                     <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">
                         <i class="fa-solid fa-smile"></i>
@@ -405,8 +376,8 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-data">
-                        <h3 id="stat-neg">3</h3>
-                        <p id="stat-neg-percent">ความรู้สึกเชิงลบ (25%)</p>
+                        <h3 id="stat-neg">0</h3>
+                        <p id="stat-neg-percent">ความรู้สึกเชิงลบ (0%)</p>
                     </div>
                     <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger);">
                         <i class="fa-solid fa-frown"></i>
@@ -414,7 +385,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-data">
-                        <h3>85%</h3>
+                        <h3 id="stat-satisfaction">0%</h3>
                         <p>คะแนนความพึงพอใจ</p>
                     </div>
                     <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.1); color: var(--accent);">
@@ -431,7 +402,6 @@
                             <thead>
                                 <tr>
                                     <th>ข้อความจากลูกค้า</th>
-                                    <th>Keywords หลัก</th>
                                     <th>หมวดหมู่</th>
                                     <th>Sentiment</th>
                                 </tr>
@@ -450,28 +420,11 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
-        // ข้อมูลจำลองตั้งต้น
-        let mockData = [
-            { text: "เมื่อวานไปตัด Under cut กับ ช่างบอย มาครับ ราคา 250 บาท ถือว่าคุ้มค่ามาก แต่ แอร์ไม่ค่อยเย็น เลย", keywords: ["Under cut", "ช่างบอย", "แอร์", "เย็น"], category: "สถานที่และสิ่งอำนวยความสะดวก", sentiment: "Negative", sarcasm: false },
-            { text: "ตัดผมสวยถูกใจมากครับ ช่างเก็บงานละเอียดดีมาก", keywords: ["ตัดผม", "สวย", "ช่าง"], category: "คุณภาพงานช่าง", sentiment: "Positive", sarcasm: false },
-            { text: "ร้านสะอาดสะอ้าน แอร์เย็นสบายมาก", keywords: ["ร้าน", "สะอาด", "แอร์"], category: "สถานที่และสิ่งอำนวยความสะดวก", sentiment: "Positive", sarcasm: false },
-            { text: "จองคิวตอนบ่ายสอง แต่ได้ตัดจริงเกือบบ่ายสาม รอนานเกินไป", keywords: ["จองคิว", "ตัด", "รอ", "นาน"], category: "ระบบการจอง", sentiment: "Negative", sarcasm: false },
-            { text: "รอคิวแค่ 2 ชั่วโมงเอง ไม่นานเลยมั้งครับ ปรับปรุงด้วยนะ", keywords: ["รอคิว", "ไม่นาน", "ปรับปรุง"], category: "ระบบการจอง", sentiment: "Negative", sarcasm: true },
-            { text: "ช่างมือเบามาก สระผมสบายจนเกือบหลับ", keywords: ["ช่าง", "มือเบา", "สระผม"], category: "คุณภาพงานช่าง", sentiment: "Positive", sarcasm: false }
-        ];
-
-        // Dictionary จำลองสำหรับฟังก์ชัน Lexical POS Tagging
-        const posDict = {
-            "ช่าง": "Noun", "ช่างบอย": "Proper Noun", "ผม": "Noun", "ตัด": "Verb", "ไป": "Verb", "มา": "Verb",
-            "ดี": "Adjective", "มาก": "Adverb", "สวย": "Adjective", "ร้าน": "Noun", "สะอาด": "Adjective", "แอร์": "Noun",
-            "เย็น": "Adjective", "ราคา": "Noun", "บาท": "Classifier", "คุ้มค่า": "Adjective", "รอ": "Verb", "คิว": "Noun",
-            "นาน": "Adverb", "ไม่": "Negative Particle", "เลย": "Particle", " Under cut": "Noun (English)",
-            "ทรงนักเรียน": "Noun", "ดีมาก": "Adjective", "ถูก": "Adjective"
-        };
+        // URL ของ Backend FastAPI
+        const API_URL = "http://localhost:8000";
 
         // ฟังก์ชันสลับหน้าเว็บ
         function switchPage(pageId) {
@@ -486,200 +439,115 @@
             }
         }
 
-        // ฟังก์ชันจำลองการวิเคราะห์ของ AI เมื่อลูกค้ากดส่ง
-        function submitReview() {
+        // ฟังก์ชันส่งรีวิวไปที่ Backend FastAPI
+        async function submitReview() {
             const text = document.getElementById('review-text').value.trim();
             if(!text) { alert('กรุณาพิมพ์ข้อความก่อนส่งครับ'); return; }
 
             const btnContent = document.getElementById('btn-content');
-            btnContent.innerHTML = '<span class="loading"></span> กำลังประมวลผลด้วย AI...';
+            btnContent.innerHTML = '<span class="loading"></span> กำลังประmวลผลด้วย AI...';
 
-            setTimeout(() => {
-                // 1. Morphological Level (ตัดคำจำลอง)
-                let mockTokens = ["ช่าง", "ตัด", "ผม", "ดี", "มาก"]; 
-                if(text.includes("แอร์")) mockTokens = ["ร้าน", "สะอาด", "แอร์", "เย็น"];
-                if(text.includes("คุ้มค่า") || text.includes("250")) mockTokens = ["ตัด", "Under cut", "ช่างบอย", "ราคา", "250", "บาท", "คุ้มค่า", "แอร์", "ไม่", "เย็น"];
-                if(text.includes("มั้ง")) mockTokens = ["รอ", "คิว", "2", "ชั่วโมง", "ไม่", "นาน", "เลย", "มั้ง"];
-                
-                // เพิ่มการตัดคำสำหรับ ทรงนักเรียน
-                if(text.includes("ทรงนักเรียน")) mockTokens = ["ไป", "ตัดผม", "ทรงนักเรียน", "ราคา", "60", "บาท", "ดีมาก", "ถูก"];
-
-                document.getElementById('morph-result').innerHTML = mockTokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
-
-                // 2. Lexical Level (POS Tagging)
-                let lexicalHTML = "";
-                mockTokens.forEach(t => {
-                    let pos = posDict[t] || "Unknown";
-                    lexicalHTML += `<div class="tag">${t} (${pos})</div>`;
+            try {
+                const response = await fetch(`${API_URL}/api/submit-review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
                 });
-                document.getElementById('lexical-result').innerHTML = lexicalHTML;
 
-                // 3. Syntactic Level
-                let syntacticText = "ร้าน (Subject) / สะอาด (Modifier)";
-                if(text.includes("ช่าง")) syntacticText = "ช่าง (Subject) / ตัดผม (Verb) / สวย (Modifier)";
-                if(text.includes("250")) syntacticText = "เมื่อวาน (Time) / ช่างบอย (Subject) / ตัด Under cut (Verb) / แอร์ (Subject) / ไม่เย็น (Modifier)";
-                if(text.includes("ทรงนักเรียน")) syntacticText = "ราคา (Subject) / 60บาท (Modifier)";
-                document.getElementById('syntactic-result').innerText = syntacticText;
+                const result = await response.json();
+                
+                if (result.status === "success") {
+                    const data = result.data;
+                    
+                    // Render ผลลัพธ์การตัดคำ
+                    document.getElementById('morph-result').innerHTML = data.tokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
+                    
+                    // Render หมวดหมู่
+                    document.getElementById('category-result').innerHTML = `<div class="tag category">${data.category}</div>`;
+                    
+                    // Render Sentiment
+                    const sentimentClass = data.sentiment === 'Positive' ? 'pos' : 'neg';
+                    document.getElementById('sentiment-result').innerHTML = `<div class="tag ${sentimentClass}">${data.sentiment}</div>`;
 
-                // 4. Semantic Analysis & Keywords
-                let category = "ทั่วไป";
-                let sentiment = "Positive";
-                let sarcasm = false;
-                let extractedKeywords = [];
-
-                if(text.includes('ช่าง') || text.includes('ตัด')) { category = "คุณภาพงานช่าง"; extractedKeywords.push("ช่าง", "ตัดผม"); }
-                if(text.includes('สะอาด') || text.includes('แอร์') || text.includes('ร้าน')) { category = "สถานที่และสิ่งอำนวยความสะดวก"; extractedKeywords.push("ร้าน", "แอร์"); }
-                if(text.includes('คิว') || text.includes('รอ') || text.includes('จอง')) { category = "ระบบการจอง"; extractedKeywords.push("รอคิว", "จอง"); }
-                if(text.includes('คุ้ม') || text.includes('ราคา') || text.includes('บาท') || text.includes('ถูก')) {
-                    extractedKeywords.push("ราคา");
-                    if(text.includes('ถูก')) extractedKeywords.push("ถูก");
-                    if(text.includes('คุ้ม')) extractedKeywords.push("คุ้มค่า");
+                    document.getElementById('process-area').style.display = 'block';
+                    alert('ส่งรีวิวเรียบร้อย! ข้อมูลถูกบันทึกขึ้นระบบแล้ว');
                 }
-
-                if(text.includes('ช้า') || text.includes('นาน') || text.includes('ไม่') || text.includes('แย่') || text.includes('แอร์ไม่ค่อยเย็น')) {
-                    sentiment = "Negative";
-                }
-
-                // การตรวจจับความกำกวม/ประชดประชัน (Sarcasm Detection)
-                let ambiguityHTML = "<span style='color:var(--success); font-weight:bold;'>ไม่พบความกำกวม ปกติ</span>";
-                if(text.includes("มั้ง") || text.includes("เอง") && text.includes("ไม่นาน")) {
-                    sarcasm = true;
-                    sentiment = "Negative"; // ถึงคำจะดูบวกแต่ประชด ให้เป็น Negative
-                    ambiguityHTML = "<span style='color:var(--danger); font-weight:bold;'>ตรวจพบการประชดประชัน (Sarcasm)</span> ระบบทำการปรับค่า Sentiment จาก Positive ➔ Negative";
-                }
-
-                document.getElementById('semantic-result').innerHTML = `<strong>Topic:</strong> ${category} | <strong>Intent:</strong> Feedback`;
-                document.getElementById('keywords-result').innerHTML = extractedKeywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
-                document.getElementById('category-result').innerHTML = `<div class="tag category">${category}</div>`;
-                
-                let sentPercent = sentiment === 'Positive' ? '70%' : '80%';
-                document.getElementById('sentiment-result').innerHTML = `<div class="tag ${sentiment === 'Positive' ? 'pos' : 'neg'}">${sentiment} (${sentPercent} confidence)</div>`;
-                document.getElementById('ambiguity-result').innerHTML = ambiguityHTML;
-
-                // --- 8. Information Extraction (สกัดสารสนเทศ) - แก้ไขเพิ่มเติมตรงนี้ ---
-                let ieHTML = "";
-                let entity_staff = "ไม่ระบุ";
-                let entity_service = "ไม่ระบุ";
-                let entity_time = "ไม่ระบุ";
-                let entity_price = "ไม่ระบุ";
-                let entity_issue = "ไม่มี";
-
-                // ดักจับชื่อช่าง
-                if(text.includes("ช่างบอย")) entity_staff = "ช่างบอย";
-                if(text.includes("ช่างเอ")) entity_staff = "ช่างเอ";
-                
-                // ดักจับรูปแบบบริการ
-                if(text.includes("Under cut")) entity_service = "Under cut";
-                if(text.includes("ทรงนักเรียน")) entity_service = "ทรงนักเรียน";
-                if(text.includes("รองทรง")) entity_service = "รองทรง";
-                
-                // ดักจับเวลา
-                if(text.includes("เมื่อวาน")) entity_time = "เมื่อวานนี้";
-                if(text.includes("วันนี้")) entity_time = "วันนี้";
-                
-                // ดักจับราคาแบบยืดหยุ่นด้วย Regular Expression (เช็กตัวเลข + บาท)
-                const priceRegex = /(\d+\s*บาท)/;
-                const priceMatch = text.match(priceRegex);
-                if(priceMatch) {
-                    entity_price = priceMatch[0];
-                    if(text.includes("คุ้ม") || text.includes("ถูก")) {
-                        entity_price += " (Value: Good)";
-                    }
-                } else if(text.includes("250")) {
-                    entity_price = "250 บาท (Value: Good)";
-                }
-                
-                // ดักจับประเด็นปัญหา
-                if(text.includes("แอร์ไม่ค่อยเย็น") || text.includes("ร้อน")) entity_issue = "Facility (Air Conditioner)";
-                if(text.includes("รอนาน") || text.includes("คิวยาว")) entity_issue = "ระบบคิว (Delay)";
-
-                ieHTML = `
-                    • <strong>Named Entity Recognition (NER):</strong> Staff: <span class='tag info'>${entity_staff}</span>, Service Type: <span class='tag info'>${entity_service}</span><br>
-                    • <strong>Time Extraction:</strong> <span class='tag info'>${entity_time}</span><br>
-                    • <strong>Attribute Extraction:</strong> Price: <span class='tag info'>${entity_price}</span><br>
-                    • <strong>Issue Detected:</strong> <span class='tag info'>${entity_issue}</span>
-                `;
-                document.getElementById('ie-result').innerHTML = ieHTML;
-
-                // โชว์ผลลัพธ์ทั้งหมด
-                document.getElementById('process-area').style.display = 'block';
-
-                // แอดข้อมูลใหม่ลงฐานข้อมูลจำลอง
-                mockData.unshift({ text, keywords: extractedKeywords, category, sentiment, sarcasm });
-
-                // คืนค่าปุ่ม
+            } catch (error) {
+                console.error("Error:", error);
+                alert('ไม่สามารถเชื่อมต่อกับ Backend ได้ กรุณาเปิดโปรแกรม FastAPI ก่อน');
+            } finally {
                 btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
-                alert('ส่งรีวิวเรียบร้อย! ข้อมูลผ่านการสกัดสารสนเทศและส่งไปยังแดชบอร์ดแล้ว');
-            }, 1500);
+            }
         }
 
-        // ฟังก์ชันเรนเดอร์ข้อมูลในหน้าแดชบอร์ด
+        // ฟังก์ชันดึงข้อมูลจาก Backend มาแสดงผลบน Dashboard
         let chartInstance = null;
-        function renderDashboard() {
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '';
+        async function renderDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/api/get-reviews`);
+                const mockData = await response.json();
 
-            let posCount = 0;
-            let negCount = 0;
-            let categoryCounts = {};
+                const tbody = document.getElementById('table-body');
+                tbody.innerHTML = '';
 
-            mockData.forEach(item => {
-                // นับจำนวน Sentiment
-                if(item.sentiment === 'Positive') posCount++;
-                if(item.sentiment === 'Negative') negCount++;
+                let posCount = 0;
+                let negCount = 0;
+                let categoryCounts = {};
 
-                // นับจำนวนหมวดหมู่
-                categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
+                mockData.forEach(item => {
+                    // นับจำนวน Sentiment
+                    if(item.sentiment === 'Positive') posCount++;
+                    if(item.sentiment === 'Negative') negCount++;
 
-                // Keywords string
-                let kwHTML = item.keywords.map(k => `<span class="tag" style="font-size:11px;">${k}</span>`).join(' ');
+                    // นับจำนวนหมวดหมู่
+                    categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
 
-                // เติมข้อมูลลงในตาราง
-                const row = `<tr>
-                    <td>${item.text} ${item.sarcasm ? '<span class="sarcasm-badge">ประชดประชัน</span>' : ''}</td>
-                    <td>${kwHTML}</td>
-                    <td><span class="tag category">${item.category}</span></td>
-                    <td><span class="sentiment-badge ${item.sentiment.toLowerCase()}">${item.sentiment}</span></td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
+                    // เติมข้อมูลลงในตาราง
+                    const row = `<tr>
+                        <td>${item.original_text}</td>
+                        <td><span class="tag category">${item.category}</span></td>
+                        <td><span class="sentiment-badge ${item.sentiment.toLowerCase()}">${item.sentiment}</span></td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
 
-            // อัปเดตตัวเลข Stats และคำนวณ %
-            let total = mockData.length;
-            let posPercent = Math.round((posCount / total) * 100);
-            let negPercent = Math.round((negCount / total) * 100);
+                // อัปเดตตัวเลข Stats และคำนวณ %
+                let total = mockData.length;
+                let posPercent = total > 0 ? Math.round((posCount / total) * 100) : 0;
+                let negPercent = total > 0 ? Math.round((negCount / total) * 100) : 0;
 
-            document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-pos').innerText = posCount;
-            document.getElementById('stat-pos-percent').innerText = `ความรู้สึกเชิงบวก (${posPercent}%)`;
-            document.getElementById('stat-neg').innerText = negCount;
-            document.getElementById('stat-neg-percent').innerText = `ความรู้สึกเชิงลบ (${negPercent}%)`;
+                document.getElementById('stat-total').innerText = total;
+                document.getElementById('stat-pos').innerText = posCount;
+                document.getElementById('stat-pos-percent').innerText = `ความรู้สึกเชิงบวก (${posPercent}%)`;
+                document.getElementById('stat-neg').innerText = negCount;
+                document.getElementById('stat-neg-percent').innerText = `ความรู้สึกเชิงลบ (${negPercent}%)`;
+                document.getElementById('stat-satisfaction').innerText = `${posPercent}%`;
 
-            // วาดกราฟ Pie Chart ด้วย Chart.js
-            const ctx = document.getElementById('categoryChart').getContext('2d');
-            
-            if (chartInstance) {
-                chartInstance.destroy();
-            }
+                // วาดกราฟ Doughnut Chart
+                const ctx = document.getElementById('categoryChart').getContext('2d');
+                if (chartInstance) { chartInstance.destroy(); }
 
-            chartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(categoryCounts),
-                    datasets: [{
-                        data: Object.values(categoryCounts),
-                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#94a3b8'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' }
+                chartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(categoryCounts),
+                        datasets: [{
+                            data: Object.values(categoryCounts),
+                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#94a3b8'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        }
                     }
-                }
-            });
+                });
+            } catch (error) {
+                console.error("Error fetching dashboard data:", error);
+            }
         }
     </script>
 </body>
