@@ -230,11 +230,6 @@
             color: var(--accent);
         }
 
-        .tag.info {
-            background-color: #e0f2fe;
-            color: #0369a1;
-        }
-
         /* Dashboard */
         .stats-grid {
             display: grid;
@@ -356,11 +351,8 @@
         </div>
         <ul class="nav-links">
             <li><a id="nav-review" class="active" onclick="switchPage('review-page')"><i
-                        class="fa-solid fa-comment-dots"></i>
-                    ลูกค้าเขียนรีวิว</a></li>
-            <li><a id="nav-dashboard" onclick="switchPage('dashboard-page')"><i class="fa-solid fa-chart-pie"></i>
-                    แดชบอร์ดเจ้าของร้าน</a>
-            </li>
+                        class="fa-solid fa-comment-dots"></i> ลูกค้าเขียนรีวิว</a></li>
+            <li><a id="nav-dashboard" onclick="switchPage('dashboard-page')"><i class="fa-solid fa-chart-pie"></i> แดชบอร์ดเจ้าของร้าน</a></li>
         </ul>
     </div>
 
@@ -382,26 +374,21 @@
                 </button>
 
                 <div id="process-area" class="process-result">
-                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase
-                        NLP Engine (Live API Result)</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-robot"></i> BarberEase NLP Engine</h3>
 
                     <div class="nlp-section" style="border-left-color: #a855f7;">
                         <h4><i class="fa-solid fa-layer-group"></i> ผลการประมวลผลคำติชม (PyThaiNLP)</h4>
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Morphological Level
-                                (การตัดคำภาษาไทย):</strong></p>
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>การตัดคำภาษาไทย (Tokens):</strong></p>
                         <div id="morph-result" style="margin-bottom: 10px;"></div>
 
-                        <p style="font-size:14px; margin-bottom: 5px;"><strong>Lexical Level
-                                (การระบุชนิดของคำ POS):</strong></p>
+                        <p style="font-size:14px; margin-bottom: 5px;"><strong>การระบุชนิดของคำ (POS Tags):</strong></p>
                         <div id="lexical-result" style="margin-bottom: 10px;"></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: var(--accent);">
                         <h4><i class="fa-solid fa-key"></i> Keywords Extraction & Category</h4>
-                        <div style="margin-bottom: 10px;"><strong>คำสำคัญที่พบ (Keywords):</strong> <span
-                                id="keywords-result"></span></div>
-                        <div style="margin-top: 5px;"><strong>หมวดหมู่ประเด็น:</strong> <span
-                                id="category-result"></span></div>
+                        <div style="margin-bottom: 10px;"><strong>คำสำคัญที่พบ:</strong> <span id="keywords-result"></span></div>
+                        <div style="margin-top: 5px;"><strong>หมวดหมู่ประเด็น:</strong> <span id="category-result"></span></div>
                     </div>
 
                     <div class="nlp-section" style="border-left-color: var(--success);">
@@ -459,8 +446,7 @@
 
             <div class="dashboard-grid">
                 <div class="card">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                         <h3 style="color: var(--primary);">บันทึกรีวิวล่าสุดและการคัดแยกหมวดหมู่</h3>
                         <button class="btn" style="padding: 8px 15px; font-size: 14px;" onclick="renderDashboard()">
                             <i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล
@@ -492,8 +478,9 @@
     </div>
 
     <script>
-        // URL ของ Backend บน Render
-        const API_URL = "https://barberease-backend.onrender.com";
+        // 🚨 สำคัญมาก: ตอนนี้ชี้ไปที่ Backend ในคอมฯ ตัวเองก่อน 
+        // หากเอา Backend ขึ้น Cloud แล้วให้มาแก้ตรงนี้เป็น URL ของ Cloud ครับ
+        const API_URL = "http://127.0.0.1:8000"; 
 
         // ฟังก์ชันสลับหน้าเว็บ
         function switchPage(pageId) {
@@ -510,7 +497,7 @@
             }
         }
 
-        // ฟังก์ชันส่งรีวิว (ดึงข้อมูลจาก Render จริงๆ)
+        // ฟังก์ชันส่งรีวิว
         function submitReview() {
             const text = document.getElementById('review-text').value.trim();
             if (!text) { alert('กรุณาพิมพ์ข้อความก่อนส่งครับ'); return; }
@@ -518,7 +505,6 @@
             const btnContent = document.getElementById('btn-content');
             btnContent.innerHTML = '<div class="loading"></div> กำลังประมวลผล AI...';
 
-            // แสดงหน้าจอประมวลผลรอไว้
             document.getElementById('process-area').style.display = 'block';
             document.getElementById('morph-result').innerHTML = "กำลังประมวลผล...";
             document.getElementById('lexical-result').innerHTML = "กำลังประมวลผล...";
@@ -526,34 +512,28 @@
             document.getElementById('category-result').innerHTML = "กำลังประมวลผล...";
             document.getElementById('sentiment-result').innerHTML = "กำลังประมวลผล...";
 
-            // ยิง API ไปที่ Render
             fetch(`${API_URL}/api/submit-review`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({ message: text })
             })
             .then(response => response.json())
             .then(res => {
-                const apiData = res.data; // ดึงข้อมูลผลลัพธ์มาแสดงผล
+                // อัปเดตการแสดงผลฝั่ง AI
+                document.getElementById('morph-result').innerHTML = res.tokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
 
-                // 1. Morphological Level (ตัดคำ)
-                document.getElementById('morph-result').innerHTML = apiData.tokens.map(t => `<div class="tag">${t}</div>`).join(' / ');
-                
-                // 2. Lexical Level (POS Tags)
-                if (apiData.pos_tags) {
-                    document.getElementById('lexical-result').innerHTML = apiData.pos_tags.map(item => `<div class="tag">${item[0]} (${item[1]})</div>`).join(' ');
+                if (res.pos_tags) {
+                    document.getElementById('lexical-result').innerHTML = res.pos_tags.map(item => `<div class="tag">${item[0]} (${item[1]})</div>`).join(' ');
                 }
 
-                // 3. Keywords Extraction
-                if (apiData.keywords) {
-                    document.getElementById('keywords-result').innerHTML = apiData.keywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
+                if (res.keywords) {
+                    document.getElementById('keywords-result').innerHTML = res.keywords.map(k => `<div class="tag keyword">${k}</div>`).join('');
                 }
 
-                // 4. Category
-                document.getElementById('category-result').innerHTML = `<div class="tag category">${apiData.category}</div>`;
-
-                // 5. Sentiment
-                document.getElementById('sentiment-result').innerHTML = `<div class="tag ${apiData.sentiment === 'Positive' ? 'pos' : 'neg'}">${apiData.sentiment}</div>`;
+                document.getElementById('category-result').innerHTML = `<div class="tag category">${res.category}</div>`;
+                document.getElementById('sentiment-result').innerHTML = `<div class="tag ${res.sentiment === 'Positive' ? 'pos' : 'neg'}">${res.sentiment}</div>`;
 
                 // คืนค่าฟอร์ม
                 setTimeout(() => {
@@ -562,36 +542,33 @@
                 }, 500);
             })
             .catch(error => {
-                alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับ Backend หรือ Render กำลังหลับอยู่ โปรดรอสักครู่แล้วลองใหม่อีกครั้งครับ");
+                alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับ Backend โปรดตรวจดูว่าเปิด Uvicorn ทิ้งไว้หรือไม่");
                 btnContent.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งความคิดเห็น';
                 console.error("Error submit review:", error);
             });
         }
 
-        // ฟังก์ชันดึงข้อมูลจาก Render มาแสดงผลบน Dashboard
+        // ฟังก์ชันดึงข้อมูลมาแสดงผลบน Dashboard
         let chartInstance = null;
         function renderDashboard() {
             const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">กำลังโหลดข้อมูลจาก Render...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">กำลังโหลดข้อมูล...</td></tr>';
 
             fetch(`${API_URL}/api/get-reviews`)
             .then(response => response.json())
             .then(data => {
-                tbody.innerHTML = ''; // เคลียร์ตารางเดิม
-                
+                tbody.innerHTML = ''; 
+
                 let posCount = 0;
                 let negCount = 0;
                 let categoryCounts = {};
 
                 data.forEach(item => {
-                    // นับจำนวน Sentiment
                     if (item.sentiment === 'Positive') posCount++;
                     if (item.sentiment === 'Negative') negCount++;
 
-                    // นับจำนวนหมวดหมู่
                     categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
 
-                    // เติมข้อมูลลงในตาราง
                     const row = `<tr>
                         <td>${item.original_text}</td>
                         <td><span class="tag category">${item.category}</span></td>
@@ -600,7 +577,6 @@
                     tbody.innerHTML += row;
                 });
 
-                // อัปเดตตัวเลข Stats และคำนวณ %
                 let total = data.length;
                 let posPercent = total > 0 ? Math.round((posCount / total) * 100) : 0;
                 let negPercent = total > 0 ? Math.round((negCount / total) * 100) : 0;
@@ -612,7 +588,7 @@
                 document.getElementById('stat-neg-percent').innerText = `ความรู้สึกเชิงลบ (${negPercent}%)`;
                 document.getElementById('stat-satisfaction').innerText = `${posPercent}%`;
 
-                // วาดกราฟ Doughnut Chart
+                // วาดกราฟ
                 const ctx = document.getElementById('categoryChart').getContext('2d');
                 if (chartInstance) { chartInstance.destroy(); }
 
@@ -636,7 +612,7 @@
                 });
             })
             .catch(error => {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">โหลดข้อมูลล้มเหลว (Render อาจกำลังหลับอยู่)</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">โหลดข้อมูลล้มเหลว (ลืมรัน uvicorn หรือเปล่าครับ?)</td></tr>';
                 console.error("Error fetching dashboard data:", error);
             });
         }
